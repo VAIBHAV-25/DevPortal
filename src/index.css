@@ -291,7 +291,6 @@ body {
 
 .light header { background: var(--bg-header) !important; border-color: var(--border-subtle) !important; }
 
-.light main,
-.light .bg-\[#0a0a0f\] { background: var(--bg-app) !important; }
+.light main { background: var(--bg-app) !important; }
 
 .light nav.lg\:hidden { background: var(--bg-sidebar) !important; border-color: var(--border-subtle) !important; }

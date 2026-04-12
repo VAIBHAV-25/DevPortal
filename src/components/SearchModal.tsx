@@ -4,7 +4,6 @@ import { Search, FileText, Terminal } from 'lucide-react'
 import { API_REGISTRY } from '@/apis/api-registry'
 import { parseSpec } from '@/lib/spec-parser'
 import { Badge } from '@/components/Badge'
-import { cn } from '@/lib/cn'
 import type { ParsedEndpoint } from '@/types'
 
 interface SearchResult {
@@ -47,9 +46,9 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
       .slice(0, 10)
   }, [query, allEndpoints])
 
+  // Reset query when modal opens — done via key on the input, not setState in effect
   useEffect(() => {
     if (!open) return
-    setQuery('')
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }

@@ -1,4 +1,4 @@
-import type { OpenAPIObject } from 'openapi-types'
+import type { OpenAPIV3 } from 'openapi-types'
 import type { ChangelogEntry } from '@/types'
 
 import pokeapiSpec from './pokeapi/openapi.json'
@@ -17,7 +17,7 @@ export interface ApiDefinition {
   name: string
   version: string
   description: string
-  spec: OpenAPIObject
+  spec: OpenAPIV3.Document
   docsFile?: string
   changelog?: ChangelogEntry[]
   sdks?: SdkLink[]
@@ -32,7 +32,7 @@ export const API_REGISTRY: ApiDefinition[] = [
     name: 'PokéAPI',
     version: '2.7.0',
     description: 'All the Pokémon data you\'ll ever need in one place',
-    spec: pokeapiSpec as unknown as OpenAPIObject,
+    spec: pokeapiSpec as unknown as OpenAPIV3.Document,
     docsFile: '/src/apis/pokeapi/docs.md',
     changelog: pokeapiChangelog as ChangelogEntry[],
     sdks: [
@@ -48,7 +48,7 @@ export const API_REGISTRY: ApiDefinition[] = [
     name: 'Stub API',
     version: '1.1.0',
     description: 'Free fake REST API for testing and prototyping',
-    spec: stubApiSpec as unknown as OpenAPIObject,
+    spec: stubApiSpec as unknown as OpenAPIV3.Document,
     docsFile: '/src/apis/stub-api/docs.md',
     changelog: stubApiChangelog as ChangelogEntry[],
     sdks: [],

@@ -33,7 +33,7 @@ function SchemaViewer({ schema, depth = 0 }: { schema?: Record<string, unknown>;
             <span className="text-emerald-400 min-w-0 break-all">{name}</span>
             {required.includes(name) && <span className="text-red-400 text-xs">*</span>}
             <span className="text-gray-500">{String(prop.type ?? 'any')}</span>
-            {prop.description && (
+            {prop.description != null && (
               <span className="text-gray-600 font-sans font-normal normal-case">{String(prop.description)}</span>
             )}
           </div>
@@ -45,7 +45,7 @@ function SchemaViewer({ schema, depth = 0 }: { schema?: Record<string, unknown>;
   return (
     <div className="text-xs font-mono">
       <span className="text-blue-400">{String(schema.type ?? 'any')}</span>
-      {schema.description && <span className="text-gray-500 ml-2 font-sans">{String(schema.description)}</span>}
+      {schema.description != null && <span className="text-gray-500 ml-2 font-sans">{String(schema.description)}</span>}
     </div>
   )
 }
@@ -154,9 +154,9 @@ export function DocsPage() {
   const [activeTab, setActiveTab] = useState<'endpoints' | 'getting-started' | 'sdks' | 'errors'>('getting-started')
 
   const api = getApiById(apiId ?? '')
-  if (!api) return <div className="p-8 text-red-400">API not found: {apiId}</div>
 
-  const endpoints = useMemo(() => parseSpec(api.spec), [api.spec])
+  // All hooks must run unconditionally — compute empty defaults when api is null
+  const endpoints = useMemo(() => (api ? parseSpec(api.spec) : []), [api])
   const grouped = useMemo(() => endpointsByTag(endpoints), [endpoints])
 
   const filteredGrouped = useMemo(() => {
@@ -183,6 +183,9 @@ export function DocsPage() {
       return next
     })
   }
+
+  // Guard after all hooks — api is always defined below this line
+  if (!api) return <div className="p-8 text-red-400">API not found: {apiId}</div>
 
   const MOCK_GETTING_STARTED = `# Getting Started with ${api.name}
 
