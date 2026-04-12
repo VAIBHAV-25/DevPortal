@@ -1,0 +1,297 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
+  --color-brand-950: #1e1b4b;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* ─── Design tokens (dark default) ──────────────────────────── */
+:root {
+  --bg-app:        #0a0a0f;
+  --bg-sidebar:    rgba(10, 10, 20, 0.97);
+  --bg-header:     rgba(10, 10, 20, 0.85);
+  --bg-card:       rgba(255,255,255,0.03);
+  --bg-card-hover: rgba(255,255,255,0.05);
+  --bg-input:      rgba(255,255,255,0.05);
+  --bg-glass:      rgba(15, 15, 25, 0.7);
+
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-card:   rgba(255,255,255,0.08);
+  --border-input:  rgba(255,255,255,0.12);
+
+  --text-primary:  #e2e8f0;
+  --text-secondary:#94a3b8;
+  --text-muted:    #64748b;
+  --text-faint:    #374151;
+
+  --sidebar-item-hover-bg: rgba(255,255,255,0.05);
+  --sidebar-item-hover-text: #f1f5f9;
+}
+
+/* ─── Light mode token overrides ───────────────────────────── */
+.light {
+  --bg-app:        #f4f6fb;
+  --bg-sidebar:    #ffffff;
+  --bg-header:     rgba(255,255,255,0.9);
+  --bg-card:       #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-input:      #f1f5f9;
+  --bg-glass:      rgba(255,255,255,0.85);
+
+  --border-subtle: #e2e8f0;
+  --border-card:   #e2e8f0;
+  --border-input:  #cbd5e1;
+
+  --text-primary:  #0f172a;
+  --text-secondary:#475569;
+  --text-muted:    #64748b;
+  --text-faint:    #94a3b8;
+
+  --sidebar-item-hover-bg: #f1f5f9;
+  --sidebar-item-hover-text: #1e293b;
+}
+
+/* ─── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-family: var(--font-sans); scroll-behavior: smooth; }
+
+body {
+  @apply antialiased min-h-screen;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* ─── Scrollbars ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-input); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection { background: rgba(99,102,241,0.25); color: var(--text-primary); }
+
+/* ─── Utility classes using CSS variables ────────────────────── */
+@layer utilities {
+  /* Glass */
+  .glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-card);
+  }
+
+  /* Gradients */
+  .gradient-brand { background: linear-gradient(135deg, #4f46e5, #7c3aed); }
+  .gradient-brand-subtle { background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(124,58,237,0.15)); }
+  .text-gradient {
+    background: linear-gradient(135deg, #818cf8, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow */
+  .glow-brand { box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+  .glow-sm    { box-shadow: 0 0 10px rgba(99,102,241,0.2); }
+
+  /* ─── Theme-aware components ─────────── */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-150 cursor-pointer;
+    color: var(--text-secondary);
+  }
+  .sidebar-item:hover {
+    background: var(--sidebar-item-hover-bg);
+    color: var(--sidebar-item-hover-text);
+  }
+  .sidebar-item-active {
+    @apply bg-brand-600/20 text-brand-400;
+    border-left: 2px solid #818cf8;
+    padding-left: calc(12px - 2px) !important;
+  }
+
+  /* Card */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    @apply rounded-xl;
+  }
+  .card-hover {
+    @apply transition-all duration-200;
+  }
+  .card-hover:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-input);
+  }
+
+  /* Status dot */
+  .status-dot {
+    @apply inline-block w-2 h-2 rounded-full;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  /* Skeleton */
+  .skeleton {
+    background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-card-hover) 50%, var(--bg-card) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+  }
+
+  .font-mono { font-family: var(--font-mono); }
+
+  /* Text helpers */
+  .text-app-primary   { color: var(--text-primary); }
+  .text-app-secondary { color: var(--text-secondary); }
+  .text-app-muted     { color: var(--text-muted); }
+}
+
+/* ─── Inline theme-aware overrides for Tailwind classes ──────── */
+/* These patch Tailwind color utilities to use CSS variables       */
+.bg-app     { background: var(--bg-app) !important; }
+.bg-sidebar { background: var(--bg-sidebar) !important; }
+.bg-header  { background: var(--bg-header) !important; }
+.bg-input   { background: var(--bg-input) !important; }
+.border-subtle { border-color: var(--border-subtle) !important; }
+.border-card   { border-color: var(--border-card) !important; }
+
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(0.85); }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-slide-up  { animation: slide-up 0.2s ease-out; }
+.animate-fade-in   { animation: fade-in 0.2s ease-out; }
+.animate-scale-in  { animation: scale-in 0.15s ease-out; }
+
+/* ─── Prose ──────────────────────────────────────────────────── */
+.prose code { background: var(--bg-card-hover); color: #a5b4fc; @apply px-1.5 py-0.5 rounded text-sm font-mono; }
+.prose pre  { background: var(--bg-app); border: 1px solid var(--border-card); @apply rounded-xl p-4 overflow-x-auto; }
+.prose pre code { background: transparent; padding: 0; }
+.prose h1, .prose h2, .prose h3 { color: var(--text-primary); }
+.prose p, .prose li { color: var(--text-secondary); }
+.prose a   { @apply text-brand-400 hover:text-brand-300; }
+.prose table { @apply w-full; }
+.prose th   { text-align: left; padding: 8px 12px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; background: var(--bg-card-hover); }
+.prose td   { padding: 8px 12px; font-size: 0.875rem; color: var(--text-secondary); border-top: 1px solid var(--border-subtle); }
+
+/* ─── Light mode: remap all hardcoded Tailwind dark utilities ── */
+/* bg grays */
+.light .bg-gray-950 { background-color: #f1f5f9 !important; }
+.light .bg-gray-900 { background-color: #f8fafc !important; }
+.light .bg-gray-800 { background-color: #f1f5f9 !important; }
+.light .bg-gray-700 { background-color: #e2e8f0 !important; }
+
+/* Opacity-variant bg grays used inline */
+.light .bg-gray-950\/95 { background-color: rgba(255,255,255,0.97) !important; }
+.light .bg-gray-900\/50 { background-color: rgba(248,250,252,0.5) !important; }
+.light .bg-gray-800\/80 { background-color: rgba(241,245,249,0.8) !important; }
+
+/* White opacity backgrounds that are "dark glass" — invert them */
+.light .bg-white\/3  { background-color: #f8fafc !important; }
+.light .bg-white\/4  { background-color: #f1f5f9 !important; }
+.light .bg-white\/5  { background-color: #e2e8f0 !important; }
+.light .bg-white\/6  { background-color: #e2e8f0 !important; }
+.light .bg-white\/7  { background-color: #e2e8f0 !important; }
+.light .bg-white\/8  { background-color: #e2e8f0 !important; }
+.light .bg-white\/10 { background-color: #e2e8f0 !important; }
+
+/* border grays */
+.light .border-gray-800    { border-color: #e2e8f0 !important; }
+.light .border-gray-700    { border-color: #cbd5e1 !important; }
+.light .border-gray-600    { border-color: #94a3b8 !important; }
+.light .border-white\/5    { border-color: #e2e8f0 !important; }
+.light .border-white\/6    { border-color: #e2e8f0 !important; }
+.light .border-white\/8    { border-color: #e2e8f0 !important; }
+.light .border-white\/10   { border-color: #e2e8f0 !important; }
+.light .border-white\/12   { border-color: #e2e8f0 !important; }
+.light .border-white\/15   { border-color: #cbd5e1 !important; }
+
+/* text grays */
+.light .text-white        { color: #0f172a !important; }
+.light .text-gray-100     { color: #1e293b !important; }
+.light .text-gray-200     { color: #1e293b !important; }
+.light .text-gray-300     { color: #334155 !important; }
+.light .text-gray-400     { color: #475569 !important; }
+.light .text-gray-500     { color: #64748b !important; }
+.light .text-gray-600     { color: #94a3b8 !important; }
+.light .text-gray-700     { color: #94a3b8 !important; }
+
+/* hover: text grays — need [&:hover] approach; use CSS */
+.light *:hover.hover\:text-gray-300 { color: #1e293b !important; }
+.light *:hover.hover\:text-gray-100 { color: #0f172a !important; }
+
+/* Prose invert (used in Getting Started tab) — override to light prose */
+.light .prose-invert { --tw-prose-body: #475569; --tw-prose-headings: #0f172a; }
+.light .prose-invert p, .light .prose-invert li   { color: #475569; }
+.light .prose-invert h1, .light .prose-invert h2,
+.light .prose-invert h3, .light .prose-invert h4   { color: #0f172a; }
+.light .prose-invert code { background: #f1f5f9; color: #4f46e5; }
+.light .prose-invert pre  { background: #f1f5f9; border-color: #e2e8f0; }
+.light .prose-invert a    { color: #4f46e5; }
+.light .prose-invert strong { color: #1e293b; }
+
+/* Input fields */
+.light input, .light textarea {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+.light input::placeholder, .light textarea::placeholder { color: #94a3b8 !important; }
+
+/* Dividers */
+.light .divide-gray-800 > * + * { border-color: #e2e8f0 !important; }
+
+/* Tab border bottom in Docs */
+.light .border-b.border-gray-800 { border-color: #e2e8f0 !important; }
+
+/* Inactive tab text */
+.light button.border-transparent.text-gray-500 { color: #64748b !important; }
+.light button.border-transparent.text-gray-500:hover { color: #1e293b !important; }
+
+/* Sidebar item hover in light */
+.light .sidebar-item:hover { background: #f1f5f9; color: #1e293b; }
+
+/* ─── CodeMirror ─────────────────────────────────────────────── */
+.cm-editor  { border-radius: 0 0 0.75rem 0.75rem; }
+.cm-scroller { font-family: var(--font-mono) !important; font-size: 13px !important; }
+
+/* ─── Light mode explicit overrides for remaining hard-coded areas */
+.light .bg-gray-950\/95,
+.light aside { background: var(--bg-sidebar) !important; border-color: var(--border-subtle) !important; }
+
+.light header { background: var(--bg-header) !important; border-color: var(--border-subtle) !important; }
+
+.light main,
+.light .bg-\[#0a0a0f\] { background: var(--bg-app) !important; }
+
+.light nav.lg\:hidden { background: var(--bg-sidebar) !important; border-color: var(--border-subtle) !important; }

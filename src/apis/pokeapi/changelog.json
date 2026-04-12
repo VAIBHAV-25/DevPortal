@@ -1,0 +1,44 @@
+[
+  {
+    "version": "2.7.0",
+    "date": "2024-03-15",
+    "type": "feature",
+    "title": "New Generation IX Pokémon added",
+    "description": "All 103 new Pokémon from the Paldea region are now available via the API."
+  },
+  {
+    "version": "2.6.5",
+    "date": "2024-01-10",
+    "type": "fix",
+    "title": "Fixed species evolution chain links",
+    "description": "Evolution chain URLs were returning 404 for certain Generation VIII Pokémon. This has been resolved."
+  },
+  {
+    "version": "2.6.0",
+    "date": "2023-11-20",
+    "type": "feature",
+    "title": "Added move damage class data",
+    "description": "Move responses now include damage class (physical/special/status) information."
+  },
+  {
+    "version": "2.5.0",
+    "date": "2023-09-05",
+    "type": "breaking",
+    "title": "Removed deprecated `/api/v1` endpoints",
+    "description": "The legacy v1 API has been removed. All clients must migrate to v2. The v2 API has been stable since 2016."
+  },
+  {
+    "version": "2.4.3",
+    "date": "2023-07-22",
+    "type": "fix",
+    "title": "Fixed pagination offset calculation",
+    "description": "Large offset values were causing incorrect results. The bug has been fixed and pagination is now consistent."
+  },
+  {
+    "version": "2.4.0",
+    "date": "2023-05-18",
+    "type": "feature",
+    "title": "Location area encounter data",
+    "description": "New endpoints added for location area encounters, including Pokémon encounter rates per game version."
+  }
+]

@@ -1,0 +1,252 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Stub API",
+    "description": "A demo stub API to demonstrate the extensibility of the Developer Portal. Adding this API required zero component changes.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "https://jsonplaceholder.typicode.com", "description": "JSONPlaceholder (Free fake REST API)" }
+  ],
+  "tags": [
+    { "name": "posts", "description": "Post resources" },
+    { "name": "users", "description": "User resources" },
+    { "name": "comments", "description": "Comment resources" }
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "operationId": "listPosts",
+        "summary": "List Posts",
+        "description": "Returns all posts. Supports filtering by userId.",
+        "tags": ["posts"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Filter posts by user ID",
+            "required": false,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "userId": { "type": "integer" },
+                      "id": { "type": "integer" },
+                      "title": { "type": "string" },
+                      "body": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createPost",
+        "summary": "Create Post",
+        "description": "Creates a new post. Returns the created post with generated ID.",
+        "tags": ["posts"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "body", "userId"],
+                "properties": {
+                  "title": { "type": "string", "description": "Post title" },
+                  "body": { "type": "string", "description": "Post body content" },
+                  "userId": { "type": "integer", "description": "Author user ID" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "title": { "type": "string" },
+                    "body": { "type": "string" },
+                    "userId": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "operationId": "getPost",
+        "summary": "Get Post",
+        "description": "Returns a single post by ID.",
+        "tags": ["posts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Post ID",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": { "type": "integer" },
+                    "id": { "type": "integer" },
+                    "title": { "type": "string" },
+                    "body": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Post not found" }
+        }
+      },
+      "put": {
+        "operationId": "updatePost",
+        "summary": "Update Post",
+        "description": "Replaces an existing post with new data.",
+        "tags": ["posts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Post ID",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "body": { "type": "string" },
+                  "userId": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Updated post" }
+        }
+      },
+      "delete": {
+        "operationId": "deletePost",
+        "summary": "Delete Post",
+        "description": "Deletes a post by ID.",
+        "tags": ["posts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Post ID to delete",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Post deleted" }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "operationId": "listUsers",
+        "summary": "List Users",
+        "description": "Returns all registered users.",
+        "tags": ["users"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Array of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "name": { "type": "string" },
+                      "username": { "type": "string" },
+                      "email": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "operationId": "listComments",
+        "summary": "List Comments",
+        "description": "Returns all comments. Filter by postId query param.",
+        "tags": ["comments"],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "description": "Filter comments by post ID",
+            "required": false,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "postId": { "type": "integer" },
+                      "id": { "type": "integer" },
+                      "name": { "type": "string" },
+                      "email": { "type": "string" },
+                      "body": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
