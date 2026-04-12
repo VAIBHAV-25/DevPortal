@@ -2,9 +2,6 @@
 
 A production-grade, extensible developer portal built with React 18 + TypeScript + Supabase. Add a new API to the platform with **zero component code changes** — just drop in an OpenAPI spec and register it.
 
-## 🎬 Video Demonstration
-
-![DevPortal Full Demo](./demo.webp)
 
 > **Demo credentials** — `demo@devportal.io` / `demo123` (bypass Supabase, works instantly)
 
